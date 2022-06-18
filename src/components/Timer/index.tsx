@@ -36,7 +36,7 @@ const Timer: React.FunctionComponent = () => {
 			<button onClick={start}>start</button>
 			{count ? (
 				<p style={{ color: '#eee' }}>
-					{new Date(count).toLocaleString()}
+					{new Date(count).toLocaleString().split(' ')[1]}
 				</p>
 			) : null}
 			<button onClick={stop}>stop</button>
