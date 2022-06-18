@@ -1,4 +1,4 @@
-import { StyledCounter } from './CounterElments';
+import { StyledCounter } from './CounterComponents';
 
 const Counter = () => {
 	return <StyledCounter>40</StyledCounter>;
