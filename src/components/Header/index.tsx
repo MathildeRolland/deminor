@@ -4,10 +4,13 @@ import Timer from '../Timer';
 
 import { StyledHeader } from './HeaderComponents';
 
-const Header = () => {
+interface HeaderProps {
+	bombsCounter: number;
+}
+const Header = ({ bombsCounter }: HeaderProps) => {
 	return (
 		<StyledHeader>
-			<Counter />
+			<Counter bombsCounter={bombsCounter} />
 			<Reset />
 			<Timer />
 		</StyledHeader>

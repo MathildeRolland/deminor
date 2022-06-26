@@ -1,7 +1,11 @@
 import { StyledCounter } from './CounterComponents';
 
-const Counter = () => {
-	return <StyledCounter>40</StyledCounter>;
+interface CounterProps {
+	bombsCounter: number;
+}
+
+const Counter = ({ bombsCounter }: CounterProps) => {
+	return <StyledCounter>{bombsCounter}</StyledCounter>;
 };
 
 export default Counter;
