@@ -13,7 +13,7 @@ const Game = () => {
 	return (
 		<StyledContainer windowSize={windowSize}>
 			<Header bombsCounter={bombsCounter} />
-			<Board />
+			<Board bombsCounter={bombsCounter} />
 		</StyledContainer>
 	);
 };
