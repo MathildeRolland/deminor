@@ -4,11 +4,19 @@ import { StyledCell } from './CellComponents';
 
 import { useSize } from '../../customHooks/useSize';
 
+type CellType = {
+	key: number;
+	isBomb: boolean;
+	isClicked: boolean;
+};
+
 interface CellProps {
 	key: number;
-	cell: { isBomb: boolean; isClicked: boolean };
+	cell: { key: number; isBomb: boolean; isClicked: boolean };
+	onClick: (cell: CellType) => void;
 }
-const Cell = ({ key, cell }: CellProps) => {
+
+const Cell = ({ key, cell, onClick }: CellProps) => {
 	const cellRef = useRef();
 	const cellSize = useSize(cellRef);
 
@@ -17,7 +25,7 @@ const Cell = ({ key, cell }: CellProps) => {
 			ref={cellRef}
 			size={cellSize}
 			cell={cell}
-			style={{ background: cell.isBomb ? 'red' : 'grey' }}
+			onClick={() => onClick(cell)}
 		/>
 	);
 };

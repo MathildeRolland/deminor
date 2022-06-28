@@ -45,6 +45,13 @@ const Board = ({ bombsCounter }: BoardProps) => {
 		return cells;
 	};
 
+	const onClick = (cell: CellType): void => {
+		const newCells = cells.map((c) => {
+			return c.key === cell.key ? { ...c, isClicked: true } : c;
+		});
+		setCells(newCells);
+	};
+
 	useEffect(() => {
 		const initialCells = Array.from(Array(cellsNumber)).map((_, index) => ({
 			key: index,
@@ -59,7 +66,7 @@ const Board = ({ bombsCounter }: BoardProps) => {
 	return (
 		<StyledBoard widthBasis={widthBasis}>
 			{cells.map((cell) => (
-				<Cell key={cell.key} cell={cell} />
+				<Cell key={cell.key} cell={cell} onClick={onClick} />
 			))}
 		</StyledBoard>
 	);
