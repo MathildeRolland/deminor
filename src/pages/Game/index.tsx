@@ -1,15 +1,19 @@
+import { useState } from 'react';
+
 import Board from '../../components/Board';
 import Header from '../../components/Header';
-import { useWindowSize } from '../../customHooks/useWindowSize';
 import { StyledContainer } from './GameComponents';
+
+import { useWindowSize } from '../../customHooks/useWindowSize';
 
 const Game = () => {
 	const windowSize = useWindowSize();
+	const [bombsCounter, setBombsCounter] = useState<number>(40);
 
 	return (
 		<StyledContainer windowSize={windowSize}>
-			<Header />
-			<Board />
+			<Header bombsCounter={bombsCounter} />
+			<Board bombsCounter={bombsCounter} />
 		</StyledContainer>
 	);
 };
