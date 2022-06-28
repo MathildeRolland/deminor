@@ -14,9 +14,10 @@ interface CellProps {
 	key: number;
 	cell: { key: number; isBomb: boolean; isClicked: boolean };
 	onClick: (cell: CellType) => void;
+	bombsAround: number | undefined;
 }
 
-const Cell = ({ key, cell, onClick }: CellProps) => {
+const Cell = ({ key, cell, onClick, bombsAround }: CellProps) => {
 	const cellRef = useRef();
 	const cellSize = useSize(cellRef);
 
@@ -26,7 +27,9 @@ const Cell = ({ key, cell, onClick }: CellProps) => {
 			size={cellSize}
 			cell={cell}
 			onClick={() => onClick(cell)}
-		/>
+		>
+			{bombsAround || ''}
+		</StyledCell>
 	);
 };
 

@@ -12,4 +12,9 @@ export const StyledCell = styled.div`
 			: '#111'};
 	height: ${(props) => props.size.width}px;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #111;
+	font-size: 1.5rem;
 `;

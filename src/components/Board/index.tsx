@@ -52,6 +52,28 @@ const Board = ({ bombsCounter }: BoardProps) => {
 		setCells(newCells);
 	};
 
+	const getNumberOfBombsAround = (
+		cell: CellType,
+		cellsNumberByRow: number
+	): number | undefined => {
+		if (!cell.isBomb) {
+			const touchingCells = [
+				cells[cell.key + 1],
+				cells[cell.key - 1],
+				cells[cell.key + cellsNumberByRow],
+				cells[cell.key - cellsNumberByRow],
+				cells[cell.key + cellsNumberByRow + 1],
+				cells[cell.key - cellsNumberByRow + 1],
+				cells[cell.key + cellsNumberByRow - 1],
+				cells[cell.key - cellsNumberByRow - 1],
+			];
+			const numberOfBombsAround = touchingCells.filter(
+				(c) => c && c.isBomb
+			).length;
+			return numberOfBombsAround;
+		}
+	};
+
 	useEffect(() => {
 		const initialCells = Array.from(Array(cellsNumber)).map((_, index) => ({
 			key: index,
@@ -66,7 +88,12 @@ const Board = ({ bombsCounter }: BoardProps) => {
 	return (
 		<StyledBoard widthBasis={widthBasis}>
 			{cells.map((cell) => (
-				<Cell key={cell.key} cell={cell} onClick={onClick} />
+				<Cell
+					key={cell.key}
+					cell={cell}
+					onClick={onClick}
+					bombsAround={getNumberOfBombsAround(cell, widthBasis)}
+				/>
 			))}
 		</StyledBoard>
 	);
