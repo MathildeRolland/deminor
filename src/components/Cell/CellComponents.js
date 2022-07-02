@@ -4,18 +4,20 @@ export const StyledCell = styled.div`
 	box-sizing: border-box;
 	border: 0.5px solid blue;
 	border-radius: 0.2rem;
-	background-color: ${(props) =>
-		props.cell.isBomb && props.cell.isClicked
+	background-color: ${({ cell: { isBomb, isRevealed, isFlag } }) =>
+		isBomb && isRevealed
 			? 'red'
-			: props.cell.isClicked
+			: isFlag
+			? 'blue'
+			: isRevealed
 			? '#ccc'
 			: '#111'};
-	height: ${(props) => props.size.width}px;
+	height: ${({ size: { width } }) => width}px;
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: #111;
+	color: ${({ cell: { isFlag } }) => (!isFlag ? '#111' : 'transparent')};
 	font-size: 1.5rem;
 	user-select: none;
 `;
