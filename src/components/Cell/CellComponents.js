@@ -17,4 +17,5 @@ export const StyledCell = styled.div`
 	align-items: center;
 	color: #111;
 	font-size: 1.5rem;
+	user-select: none;
 `;
