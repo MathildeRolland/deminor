@@ -7,7 +7,7 @@ export const StyledBoard = styled.div`
 	border-radius: 0.3em;
 	max-width: 430px;
 	display: grid;
-	grid-template-columns: ${(props) => `repeat(${props.widthBasis}, 1fr)`};
+	grid-template-columns: ${({ widthBasis }) => `repeat(${widthBasis}, 1fr)`};
 
 	@media all and (min-width: 768px) {
 		max-width: 95%;

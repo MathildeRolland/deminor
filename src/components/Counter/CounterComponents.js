@@ -6,4 +6,7 @@ export const StyledCounter = styled.div`
 	padding: 0.5rem 0.8rem;
 	width: 2rem;
 	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;

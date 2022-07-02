@@ -1,21 +1,25 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
 import Cell from '../Cell';
 import { StyledBoard } from './BoardComponents';
 
 import { useWindowSize } from '../../customHooks/useWindowSize';
+import { getTouchingCells } from '../../utils/getTouchingCells';
+import { randomBombsPlacement } from '../../utils/bombsPlacement';
 
 interface BoardProps {
 	bombsCounter: number;
+	setBombsCounter: React.Dispatch<SetStateAction<number>>;
+	action: number;
 }
 
 type CellType = {
 	key: number;
 	isBomb: boolean;
-	isClicked: boolean;
+	isRevealed: boolean;
 };
 
-const Board = ({ bombsCounter }: BoardProps) => {
+const Board = ({ bombsCounter, setBombsCounter, action }: BoardProps) => {
 	const windowSize = useWindowSize();
 
 	const [cells, setCells] = useState<CellType[]>([]);
@@ -23,33 +27,25 @@ const Board = ({ bombsCounter }: BoardProps) => {
 	const widthBasis = windowSize.width < 768 ? 10 : 20;
 	const cellsNumber = windowSize.width < 768 ? 200 : 300;
 
-	const getRandomNumber = (min: number, max: number) => {
-		return Math.floor(Math.random() * (max - min + 1) + min);
-	};
-
-	const defineCellIsBomb = (cells: CellType[]) => {
-		const randomNumber: number = getRandomNumber(0, cells.length);
-		const relatedCell = cells[randomNumber];
-
-		if (relatedCell && !relatedCell.isBomb) {
-			relatedCell.isBomb = true;
-		} else {
-			defineCellIsBomb(cells);
-		}
-	};
-
-	const randomBombsPlacement = (cells: CellType[], bombsCounter: number) => {
-		for (let i = 0; i < bombsCounter; i++) {
-			defineCellIsBomb(cells);
-		}
-		return cells;
-	};
-
 	const onClick = (cell: CellType): void => {
-		const newCells = cells.map((c) => {
-			return c.key === cell.key ? { ...c, isClicked: true } : c;
-		});
-		setCells(newCells);
+		if (action === 1) {
+			const newCells = cells.map((c) =>
+				c.key === cell.key && bombsCounter >= 0
+					? { ...c, isFlag: true }
+					: c
+			);
+			setBombsCounter(
+				!cell.hasOwnProperty('isFlag') && bombsCounter > 0
+					? bombsCounter - 1
+					: bombsCounter
+			);
+			setCells(newCells);
+		} else {
+			const newCells = cells.map((c) =>
+				c.key === cell.key ? { ...c, isRevealed: true } : c
+			);
+			setCells(newCells);
+		}
 	};
 
 	const getNumberOfBombsAround = (
@@ -57,16 +53,11 @@ const Board = ({ bombsCounter }: BoardProps) => {
 		cellsNumberByRow: number
 	): number | undefined => {
 		if (!cell.isBomb) {
-			const touchingCells = [
-				cells[cell.key + 1],
-				cells[cell.key - 1],
-				cells[cell.key + cellsNumberByRow],
-				cells[cell.key - cellsNumberByRow],
-				cells[cell.key + cellsNumberByRow + 1],
-				cells[cell.key - cellsNumberByRow + 1],
-				cells[cell.key + cellsNumberByRow - 1],
-				cells[cell.key - cellsNumberByRow - 1],
-			];
+			const touchingCells = getTouchingCells(
+				cells,
+				cell,
+				cellsNumberByRow
+			);
 			const numberOfBombsAround = touchingCells.filter(
 				(c) => c && c.isBomb
 			).length;
@@ -78,12 +69,12 @@ const Board = ({ bombsCounter }: BoardProps) => {
 		const initialCells = Array.from(Array(cellsNumber)).map((_, index) => ({
 			key: index,
 			isBomb: false,
-			isClicked: false,
+			isRevealed: false,
 		}));
 
 		const newCells = randomBombsPlacement(initialCells, bombsCounter);
 		setCells(newCells);
-	}, [cellsNumber, bombsCounter]);
+	}, [cellsNumber]);
 
 	return (
 		<StyledBoard widthBasis={widthBasis}>

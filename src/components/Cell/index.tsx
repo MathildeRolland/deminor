@@ -7,12 +7,12 @@ import { useSize } from '../../customHooks/useSize';
 type CellType = {
 	key: number;
 	isBomb: boolean;
-	isClicked: boolean;
+	isRevealed: boolean;
 };
 
 interface CellProps {
 	key: number;
-	cell: { key: number; isBomb: boolean; isClicked: boolean };
+	cell: { key: number; isBomb: boolean; isRevealed: boolean };
 	onClick: (cell: CellType) => void;
 	bombsAround: number | undefined;
 }
